@@ -1,0 +1,244 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "OpenCV_image_pre.ipynb",
+      "provenance": [],
+      "collapsed_sections": [],
+      "mount_file_id": "1IyH49L-VOF7sts90Dm5b14Cnv3LtDGLH",
+      "authorship_tag": "ABX9TyPpsu4FFPS10ER4rX1r8mUi",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/eugene27091/AIFFEL_Exploration/blob/main/OpenCV_image_pre.ipynb\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "id": "h3j2pp30UUIx"
+      },
+      "outputs": [],
+      "source": [
+        "import cv2\n",
+        "import os\n",
+        "import pandas as pd\n",
+        "import time\n",
+        "import re\n",
+        "import datetime\n",
+        "import io\n",
+        "import numpy as np"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 파일이름을 오름차순으로 정렬하는 함수\n",
+        "\n",
+        "def file_sorted(files):\n",
+        "    temp = [re.split(r\"([0-9]+)\", s) for s in files]\n",
+        "    sort = sorted(temp, key = lambda x: (x[0].lower(), int(x[1])))\n",
+        "    \n",
+        "    return [''.join(s) for s in sort]"
+      ],
+      "metadata": {
+        "id": "Ne7aaOvyXQm4"
+      },
+      "execution_count": 15,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 파일경로를 리스트로 만드는 함수\n",
+        "\n",
+        "def make_file_paths(path):\n",
+        "    img_names = os.listdir(path)\n",
+        "    file_names = file_sorted(img_names)\n",
+        "    file_paths = []\n",
+        "    for file_name in file_names:\n",
+        "        file_paths.append(path + file_name)\n",
+        "\n",
+        "    return file_paths"
+      ],
+      "metadata": {
+        "id": "uKbC4dpyXN3f"
+      },
+      "execution_count": 16,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def img_Contrast(img): \n",
+        "  # -----Converting image to LAB Color model----------------------------------- \n",
+        "  lab = cv2.cvtColor(img, cv2.COLOR_BGR2LAB) \n",
+        "  \n",
+        "  # -----Splitting the LAB image to different channels------------------------- \n",
+        "  l, a, b = cv2.split(lab) \n",
+        "  # -----Applying CLAHE to L-channel------------------------------------------- \n",
+        "  clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8, 8)) \n",
+        "  cl = clahe.apply(l) \n",
+        "  # -----Merge the CLAHE enhanced L-channel with the a and b channel----------- \n",
+        "  limg = cv2.merge((cl, a, b)) \n",
+        "  # # -----Converting image from LAB Color model to RGB model-------------------- \n",
+        "  final = cv2.cvtColor(limg, cv2.COLOR_LAB2BGR) \n",
+        "  return final\n",
+        "  \n",
+        "# img = cv2.imread('name.png') \n",
+        "# img = img_Contrast(img)\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "yt8PZFnLZwGz"
+      },
+      "execution_count": 30,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "img_dir = '/content/drive/MyDrive/data/'\n",
+        "save_path = '/content/drive/MyDrive/blavk/'\n",
+        "\n",
+        "file_paths3 = make_file_paths(img_dir)\n",
+        "\n",
+        "for i, file_path3 in enumerate(file_paths3):\n",
+        "    # src = cv2.cvtColor(cv2.imread(file_path3), cv2.COLOR_BGR2GRAY)\n",
+        "    src = cv2.imread(file_path3)\n",
+        "    img = img_Contrast(src)\n",
+        "\n",
+        "    # cv2.imshow('src', src)\n",
+        "    # cv2.imshow('dst', dst)\n",
+        "    cv2.imwrite(save_path+'new2_img'+str(i)+'.jpg',img )\n",
+        "\n",
+        "resize_file_paths = make_file_paths(save_path)"
+      ],
+      "metadata": {
+        "id": "z8uj2ydMWsHn"
+      },
+      "execution_count": 23,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "img_dir = '/content/drive/MyDrive/data/test_dataset3_ver2'\n",
+        "save_path = '/content/drive/MyDrive/yujin/'\n",
+        "\n",
+        "file_paths3 = make_file_paths(img_dir)\n",
+        "\n",
+        "for i, file_path3 in enumerate(file_paths3):\n",
+        "\n",
+        "  image = cv2.imread(file_path3)\n",
+        "  gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)\n",
+        "  mask = np.zeros(image.shape, dtype=np.uint8)\n",
+        "\n",
+        "  cnts = cv2.findContours(gray, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)\n",
+        "  cnts = cnts[0] if len(cnts) == 2 else cnts[1]\n",
+        "\n",
+        "  cv2.fillPoly(mask, cnts, [255,255,255])\n",
+        "  mask = 255 - mask\n",
+        "  result = cv2.bitwise_or(image, mask)\n",
+        "  # result = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)\n",
+        "  cv2.imwrite(save_path+'gray_image_'+str(i)+'.jpg',result)\n",
+        "\n",
+        "resize_file_paths = make_file_paths(save_path)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 253
+        },
+        "id": "5hb1RgnRdnft",
+        "outputId": "aa6b09aa-7b35-4445-f4f6-f4d93f79d3d1"
+      },
+      "execution_count": 31,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "error",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31merror\u001b[0m                                     Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-31-db541a4c503e>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[1;32m      7\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      8\u001b[0m   \u001b[0mimage\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mcv2\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mimread\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfile_path3\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 9\u001b[0;31m   \u001b[0mgray\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mcv2\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mcvtColor\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mimage\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mcv2\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mCOLOR_BGR2GRAY\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m     10\u001b[0m   \u001b[0mmask\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mnp\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mzeros\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mimage\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mshape\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mdtype\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mnp\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0muint8\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     11\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31merror\u001b[0m: OpenCV(4.1.2) /io/opencv/modules/imgproc/src/color.cpp:182: error: (-215:Assertion failed) !_src.empty() in function 'cvtColor'\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "img_dir = '/content/drive/MyDrive/data/test_dataset3_ver2/'\n",
+        "save_path = '/content/drive/MyDrive/yujin3/'\n",
+        "\n",
+        "file_paths3 = make_file_paths(img_dir)\n",
+        "\n",
+        "for i, file_path3 in enumerate(file_paths3):\n",
+        "\n",
+        "  img = cv2.imread(file_path3)\n",
+        "  img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)\n",
+        "  kernel = np.ones((1, 1), np.uint8)\n",
+        "  img = cv2.dilate(img, kernel, iterations=1)\n",
+        "  img = cv2.erode(img, kernel, iterations=1)\n",
+        "  cv2.threshold(cv2.medianBlur(img, 3), 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]\n",
+        "\n",
+        "  cv2.imwrite(save_path+'gray_image_'+str(i+1)+'.jpg',img)\n",
+        "\n",
+        "resize_file_paths = make_file_paths(save_path)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 236
+        },
+        "id": "YilKFLp4gU6u",
+        "outputId": "c6399a9b-6edc-4842-ea34-ff38b2b4d88b"
+      },
+      "execution_count": 38,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "KeyboardInterrupt",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mKeyboardInterrupt\u001b[0m                         Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-38-e75c7bbc9885>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[1;32m     13\u001b[0m   \u001b[0mcv2\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mthreshold\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mcv2\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mmedianBlur\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mimg\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;36m3\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;36m0\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;36m255\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mcv2\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mTHRESH_BINARY\u001b[0m \u001b[0;34m+\u001b[0m \u001b[0mcv2\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mTHRESH_OTSU\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     14\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 15\u001b[0;31m   \u001b[0mcv2\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mimwrite\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0msave_path\u001b[0m\u001b[0;34m+\u001b[0m\u001b[0;34m'gray_image_'\u001b[0m\u001b[0;34m+\u001b[0m\u001b[0mstr\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mi\u001b[0m\u001b[0;34m+\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m+\u001b[0m\u001b[0;34m'.jpg'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0mimg\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m     16\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     17\u001b[0m \u001b[0mresize_file_paths\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mmake_file_paths\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0msave_path\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mKeyboardInterrupt\u001b[0m: "
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        ""
+      ],
+      "metadata": {
+        "id": "OVEQKevFeudf"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
