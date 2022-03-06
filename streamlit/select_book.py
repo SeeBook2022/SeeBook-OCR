@@ -63,7 +63,8 @@ if image_file is not None:
     else:
         our_image = cvt((our_image)) 
         st.image(our_image)    
-
+    
+    # 마우스 이벤트 (좌표 저장, 선택한 bbox 그리기)
     def on_mouse(event, x, y, flags, param):
         global click_list
         make_bbox(our_image, stage1_bbox_list)
@@ -80,6 +81,7 @@ if image_file is not None:
     
     with col1:
         if st.button('Select'):
+            # 윈도우 생성 및 사이즈 조절
             cv2.namedWindow('image', flags=cv2.WINDOW_NORMAL)
             cv2.resizeWindow(winname='image', width=900, height=700)
             cv2.setMouseCallback('image', on_mouse)
@@ -93,9 +95,12 @@ if image_file is not None:
                     break
                 
             cv2.destroyAllWindows()
+            
+            # 최종 결과 사진 나타내기
             final_result_img(our_image, click_list, stage1_bbox_list)
             st.image(our_image)
     
+    # next 버튼 (다음 페이지로 넘어가기, click_list 전달 내용 추가해야 함)
     with col2:    
         if st.button('Next'):
             pass
