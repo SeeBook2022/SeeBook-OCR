@@ -53,7 +53,7 @@ stage1, stage2, stage3 정량 평가 진행 [[Link]](https://github.com/SeeBook2
 <br><br>
 
 ## Contributors
-|박진우|김성연|장유진|나 융|
+|[박진우](https://github.com/PJINU)|[김성연](https://github.com/yeonkkk)|[장유진](https://github.com/eugene27091)|[나 융](https://github.com/orgs/SeeBook2022/people/Caligo46)|
 |:---:|:---:|:---:|:---:|
 |![11](https://user-images.githubusercontent.com/88660886/158049516-5214c5e3-7063-4b13-9509-104ddde2143e.png)|![22](https://user-images.githubusercontent.com/88660886/158049527-6d9e0863-b468-48c0-8bc6-6aaa34376306.png)|![33](https://user-images.githubusercontent.com/88660886/158049532-fee94a7b-eee4-4012-bf8a-168a855061ed.png)|![44](https://user-images.githubusercontent.com/88660886/158049541-905a63db-7877-4390-983a-0ad6addb627a.png)|
 
