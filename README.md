@@ -29,6 +29,9 @@
 * OpenCV2
 * Pandas
 * Wandb
+* Pillow(PIL)
+* Numpy
+
 
 
 <br><br>
