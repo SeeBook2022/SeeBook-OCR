@@ -1,6 +1,10 @@
 # 📕 SeeBook-OCR
 > **Object detection**과 **OCR**을 활용한 여러 권의 책 정보 검출 및 검색 서비스  
-> SeSAC x AIFFEL hackathon3에서 진행한 프로젝트 입니다.  
+
+* SeSAC x AIFFEL hackathon3에서 진행한 프로젝트 입니다.  
+* 진행 기간: 2022.01.24 ~2022.03.11
+
+<br>
 
 ![seebookocr](https://user-images.githubusercontent.com/88660886/158048631-0a5e5e22-e9b9-46d2-a3b1-34aa1084a229.PNG)
 
