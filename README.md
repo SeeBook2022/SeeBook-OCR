@@ -51,7 +51,7 @@
 <br><br>
 
 ## ✔ Evaluation  
-stage1, stage2, stage3 정량 평가 진행 [[Link]](https://github.com/SeeBook2022/SeeBook-OCR/tree/main/evaluation)
+stage1, stage2, stage3 정량 평가 진행 [[Link]](https://github.com/SeeBook2022/SeeBook-OCR/tree/main/05.evaluation)
 
 <br><br>
 <br><br>
