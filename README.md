@@ -64,9 +64,9 @@ stage1, stage2, stage3 정량 평가 진행 [[Link]](https://github.com/SeeBook2
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/PJINU"><img src="https://avatars.githubusercontent.com/u/88822908?v=4?s=100" width="150px;" alt=""/><br /><sub><b>PJINU</b></sub></a><br /></td>
-    <td align="center"><a href="https://github.com/eugene27091"><img src="https://avatars.githubusercontent.com/u/69023352?v=4?s=100" width="150px;" alt=""/><br /><sub><b>eugene27091</b></sub></a><br /></td>
-    <td align="center"><a href="https://github.com/yeonkkk"><img src="https://avatars.githubusercontent.com/u/88660886?v=4?v=4?s=100" width="150px;" alt=""/><br /><sub><b>yeonkkk</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/PJINU"><img src="https://avatars.githubusercontent.com/u/88822908?v=4?s=100" width="150px;" alt=""/><br /><sub><b>박진우</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/eugene27091"><img src="https://avatars.githubusercontent.com/u/69023352?v=4?s=100" width="150px;" alt=""/><br /><sub><b>장유진</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/yeonkkk"><img src="https://avatars.githubusercontent.com/u/88660886?v=4?v=4?s=100" width="150px;" alt=""/><br /><sub><b>김성연</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/Caligo46"><img src="https://avatars.githubusercontent.com/u/86560261?v=4?v=4?s=100" width="150px;" alt=""/><br /><sub><b>Caligo46</b></sub></a><br /></td>
 </tr>
 </table>
